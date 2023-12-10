@@ -17,7 +17,7 @@ export function BookDetails({ bookId, onBack }) {
     const {amount, currencyCode, isOnSale} = listPrice
     return (
         <section className="book-details">
-            <h2>{title}</h2>
+            <h2>{title.toUpperCase()}</h2>
             <h4><span>Description: </span>{description}</h4>
             <h4><span>Amount Left: </span>{amount}</h4>
             <h4><span>Currency: </span>{currencyCode}</h4>
