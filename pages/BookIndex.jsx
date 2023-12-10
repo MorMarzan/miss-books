@@ -24,18 +24,16 @@ export function BookIndex() {
             .catch(err => console.log('err:', err))
     }
 
-    // function onRemoveBook(bookId) {
-    //     bookService.remove(bookId)
-    //         .then(() => {
-    //             // const newBooks = books.filter(book => book.id !== bookId)
-    //             // setBooks(newBooks)
-    //             setBooks(prevBooks => {
-    //                 return prevBooks.filter(book => book.id !== bookId)
-    //             })
-    //         })
-    //         .catch(err => console.log('err:', err))
+    function onRemoveBook(bookId) {
+        bookService.remove(bookId)
+            .then(() => {
+                setBooks(prevBooks => {
+                    return prevBooks.filter(book => book.id !== bookId)
+                })
+            })
+            .catch(err => console.log('err:', err))
 
-    // }
+    }
 
 
     // function onSelectBookId(bookId) {
@@ -55,7 +53,7 @@ export function BookIndex() {
                 {/* <React.Fragment> */}
                     <h1>Welcome to book index!</h1>
                     {/* <BookFilter filterBy={filterBy} onSetFilter={onSetFilter} /> */}
-                    <BookList books={books} />
+                    <BookList books={books} onRemoveBook={onRemoveBook}/>
                     {/* <BookList books={books} onSelectBookId={onSelectBookId} onRemoveBook={onRemoveBook} /> */}
                 {/* </React.Fragment> */}
             {/* }
