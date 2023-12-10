@@ -1,4 +1,4 @@
-import { Home } from './cmps/Home.jsx'
+import { Home } from './pages/Home.jsx'
 
 const { useState } = React
 
