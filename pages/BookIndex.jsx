@@ -16,8 +16,7 @@ export function BookIndex() {
     }, [filterBy])
 
     function loadBooks() {
-        bookService.query()
-            bookService.query(filterBy)
+        bookService.query(filterBy)
             .then(books => setBooks(books))
             .catch(err => console.log('err:', err))
     }

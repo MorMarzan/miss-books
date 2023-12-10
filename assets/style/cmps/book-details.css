@@ -23,3 +23,13 @@
 .book-details span {
     font-weight: bold;
 }
+
+.book-details .sale-tag {
+    background-color: red;
+    color: white;
+}
+
+.book-details .tag {
+    background-color: var(--clr2);
+
+}
