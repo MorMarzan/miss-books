@@ -6,7 +6,8 @@ export const utilService = {
     saveToStorage,
     padNum,
     getDayName,
-    getMonthName
+    getMonthName,
+    capitalizeFirstLetter
 }
 
 function makeId(length = 6) {
@@ -58,3 +59,7 @@ function getMonthName(date) {
     ]
     return monthNames[date.getMonth()]
 }
+
+function capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
