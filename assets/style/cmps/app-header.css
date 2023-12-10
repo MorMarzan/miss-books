@@ -1,4 +1,4 @@
-.app-header {
+/* .app-header {
   background-color: var(--clr1);
   color: var(--clr1bg);
   padding: 1em;
@@ -7,5 +7,30 @@
 @media(max-width: 720px) {
   .app-header {
     color: var(--clr2bg);
+  }
+} */
+
+.app-header {
+  background-color: var(--clr1);
+  color: var(--clr1bg-light);
+
+}
+
+.app-header section:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.app-header .app-nav {
+  display: flex;
+  gap: 15px;
+}
+
+
+@media (max-width: 720px) {
+  .app-header {
+      color: var(--clr2bg);
   }
 }
