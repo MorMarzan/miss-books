@@ -51,7 +51,7 @@ function getEmptyBook(title = '', description = '') {
         id: '',
         title,
         description,
-        // thumbnail: '',
+        thumbnail: '',
         listPrice: {
             amount: 0,
             currencyCode: '',
@@ -96,8 +96,9 @@ function _createDemoBooks() {
     ]
     const currencyCodes = ["USD", "EUR", "JPY", "GBP", "AUD"]
 
-    const books = bookNames.map(bookName => {
+    const books = bookNames.map((bookName, idx) => {
         const book = _createBook(bookName, utilService.makeLorem(15))
+        book.thumbnail = `./assets/img/books/${idx + 1}.jpg`
         book.listPrice.amount = utilService.getRandomIntInclusive(0, 101)
         book.listPrice.currencyCode = currencyCodes[utilService.getRandomIntInclusive(0, currencyCodes.length - 1)]
         book.listPrice.isOnSale = Math.random() < 0.5

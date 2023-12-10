@@ -1,5 +1,5 @@
 // import { BookFilter } from "../cmps/BookFilter.jsx"
-// import { BookList } from "../cmps/BookList.jsx"
+import { BookList } from "../cmps/BookList.jsx"
 // import { BookDetails } from "./BookDetails.jsx"
 import { bookService } from "../services/book.service.js"
 
@@ -50,15 +50,15 @@ export function BookIndex() {
     if (!books) return <div>Loading...</div>
     return (
         <section className="book-index">
-            <h1>books idx</h1>
-            {/* <p>{JSON.stringify(books)}</p> */}
-            {/* {!selectedBookId &&
-                <React.Fragment>
+            {/* <h1>books idx</h1> */}
+            {/* {!selectedBookId && */}
+                {/* <React.Fragment> */}
                     <h1>Welcome to book index!</h1>
-                    <BookFilter filterBy={filterBy} onSetFilter={onSetFilter} />
-                    <BookList books={books} onSelectBookId={onSelectBookId} onRemoveBook={onRemoveBook} />
-                </React.Fragment>
-            }
+                    {/* <BookFilter filterBy={filterBy} onSetFilter={onSetFilter} /> */}
+                    <BookList books={books} />
+                    {/* <BookList books={books} onSelectBookId={onSelectBookId} onRemoveBook={onRemoveBook} /> */}
+                {/* </React.Fragment> */}
+            {/* }
             {selectedBookId && <BookDetails onBack={() => setSelectedBookId(null)} bookId={selectedBookId} />} */}
         </section>
     )
