@@ -6,7 +6,7 @@ const { useState } = React
 
 export function App() {
 
-    const [page, setPage] = useState('home')
+    const [page, setPage] = useState('books')
 
     return (
         <section className="app main-layout">
