@@ -47,10 +47,11 @@ export function BookIndex() {
     // }
 
 
-    // if (!books) return <div>Loading...</div>
+    if (!books) return <div>Loading...</div>
     return (
         <section className="book-index">
             <h1>books idx</h1>
+            {/* <p>{JSON.stringify(books)}</p> */}
             {/* {!selectedBookId &&
                 <React.Fragment>
                     <h1>Welcome to book index!</h1>
