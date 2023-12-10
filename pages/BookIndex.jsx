@@ -1,7 +1,7 @@
-// import { BookFilter } from "../cmps/BookFilter.jsx"
 import { BookList } from "../cmps/BookList.jsx"
 import { BookDetails } from "./BookDetails.jsx"
 import { bookService } from "../services/book.service.js"
+import { BookFilter } from "../cmps/BookFilter.jsx"
 
 const { useState, useEffect } = React
 
@@ -9,17 +9,15 @@ export function BookIndex() {
 
     const [books, setBooks] = useState(null)
     const [selectedBookId, setSelectedBookId] = useState(null)
-    // const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
+    const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
 
     useEffect(() => {
         loadBooks()
-
-    }, [])
-    // }, [filterBy])
+    }, [filterBy])
 
     function loadBooks() {
         bookService.query()
-            // bookService.query(filterBy)
+            bookService.query(filterBy)
             .then(books => setBooks(books))
             .catch(err => console.log('err:', err))
     }
@@ -36,13 +34,12 @@ export function BookIndex() {
 
 
     function onSelectBookId(bookId) {
-        console.log('bookId', bookId)
         setSelectedBookId(bookId)
     }
 
-    // function onSetFilter(filterBy) {
-    //     setFilterBy(filterBy)
-    // }
+    function onSetFilter(filterBy) {
+        setFilterBy(filterBy)
+    }
 
 
     if (!books) return <div>Loading...</div>
@@ -51,12 +48,11 @@ export function BookIndex() {
             {!selectedBookId &&
                 <React.Fragment>
                     <h1>Welcome to book index!</h1>
-                    {/* <BookFilter filterBy={filterBy} onSetFilter={onSetFilter} /> */}
-                    {/* <BookList books={books} onRemoveBook={onRemoveBook} /> */}
+                    <BookFilter filterBy={filterBy} onSetFilter={onSetFilter} />
                     <BookList books={books} onSelectBookId={onSelectBookId} onRemoveBook={onRemoveBook} />
                 </React.Fragment>
             }
-            {selectedBookId && <BookDetails bookId={selectedBookId} onBack={() => setSelectedBookId(null)}/>}
+            {selectedBookId && <BookDetails bookId={selectedBookId} onBack={() => setSelectedBookId(null)} />}
         </section>
     )
 }

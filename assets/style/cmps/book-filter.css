@@ -1,0 +1,19 @@
+.book-filter {
+    background-color: var(--clr2bg);
+    padding: 10px;
+    display: grid;
+    justify-items: center;
+
+}
+
+.book-filter form {
+    display: grid;
+    grid-template-columns: 100px 200px;
+    gap: 10px;
+}
+
+.book-filter form button {
+    grid-column: 1/ span 2;
+    background-color: var(--clr2bg-light);
+    margin: 0;
+}
