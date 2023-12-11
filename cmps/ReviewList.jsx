@@ -23,8 +23,12 @@ export function ReviewList() {
             .catch(err => console.log('err:', err))
     }
 
+    //unfinished
     // function onRemoveReview(reviewId) {
-        
+
+    //     bookService.removeReview(params.bookId, reviewId)
+    //         .then()
+
     //     bookService.remove(bookId)
     //         .then(() => {
     //             setBooks(prevBooks => {
@@ -44,16 +48,16 @@ export function ReviewList() {
         <section className="review-list">
             <h1>Reviews</h1>
             <ul>
-            {reviews.map(review =>
-                <li key={review.id}>
-                    <ReviewPreview review={review}/>
-                    <section>
-                        {/* <button onClick={() => onRemoveReview(review.id)}>Remove Review</button> */}
-                        {/* <button><Link to={`/book/edit/${review.id}`}>Edit</Link></button> */}
-                    </section>
-                </li>
-            )}
-        </ul>
+                {reviews.map(review =>
+                    <li key={review.id}>
+                        <ReviewPreview review={review} />
+                        <section>
+                            {/* <button onClick={() => onRemoveReview(review.id)}>Remove Review</button> */}
+                            {/* <button><Link to={`/book/edit/${review.id}`}>Edit</Link></button> */}
+                        </section>
+                    </li>
+                )}
+            </ul>
         </section>
     )
 }

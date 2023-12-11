@@ -456,7 +456,8 @@ export const bookService = {
     // getNextBookId,
     getDefaultFilter,
     addReview,
-    getEmptyReview
+    getEmptyReview,
+    removeReview
 }
 
 function query(filterBy) {
@@ -585,9 +586,11 @@ function getEmptyReview() {
 }
 
 function removeReview(bookId, reviewId) {
-
-}
-
-function queryReviews(bookId) {
-
+    return get(bookId)
+        .then(book => {
+            const updatedReviews =  book.reviews.filter(review => review.id !== reviewId)
+            book.reviews = updatedReviews
+            return save(book)
+        })
+        .catch(err => console.log('err:', err))
 }
