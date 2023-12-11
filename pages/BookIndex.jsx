@@ -46,15 +46,11 @@ export function BookIndex() {
     if (!books) return <div>Loading...</div>
     return (
         <section className="book-index">
-            {/* {!selectedBookId && */}
-                {/* <React.Fragment> */}
                     <h1>Welcome to book index!</h1>
                     <BookFilter filterBy={filterBy} onSetFilter={onSetFilter} />
+                    <button className="add"><Link to="/book/edit">Add Book</Link></button>
                     <BookList books={books} onRemoveBook={onRemoveBook} />
-                    {/* <BookList books={books} onSelectBookId={onSelectBookId} onRemoveBook={onRemoveBook} /> */}
                     {!books.length && <div> No Books found...</div>}
-                {/* </React.Fragment> */}
-            {/* } */}
             {/* {selectedBookId && <BookDetails bookId={selectedBookId} onBack={() => setSelectedBookId(null)} />} */}
         </section>
     )
