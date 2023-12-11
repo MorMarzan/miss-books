@@ -455,6 +455,8 @@ export const bookService = {
     getEmptyBook,
     // getNextBookId,
     getDefaultFilter,
+    addReview,
+    getEmptyReview
 }
 
 function query(filterBy) {
@@ -503,7 +505,8 @@ function getEmptyBook(title = '', subtitle = '', description = '') {
             amount: 0,
             currencyCode: '',
             isOnSale: ''
-        }
+        },
+        // reviews: []
     }
 }
 
@@ -524,7 +527,7 @@ function getDefaultFilter() {
 function _createBooks() {
     let books = utilService.loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
-        booksDemo.forEach((book, idx)=> book.thumbnail = `./assets/img/books/${idx + 1}.jpg`)
+        booksDemo.forEach((book, idx) => book.thumbnail = `./assets/img/books/${idx + 1}.jpg`)
         utilService.saveToStorage(BOOK_KEY, booksDemo)
         // _createDemoBooks()
     }
@@ -556,4 +559,35 @@ function _createBook(title, description) {
     const book = getEmptyBook(title, description)
     book.id = utilService.makeId()
     return book
+}
+
+////////////////////////////////
+
+function addReview(bookId, review) {
+    if (!review.id) review.id = utilService.makeId()
+    return get(bookId)
+        .then(book => {
+            console.log('review', review)
+            if (!book.reviews) book.reviews = []
+            book.reviews.push(review)
+            return save(book)
+        })
+        .catch(err => console.log('err:', err))
+}
+
+function getEmptyReview() {
+    return {
+        id: '',
+        fullname: '',
+        rating: '',
+        readAt: ''
+    }
+}
+
+function removeReview(bookId, reviewId) {
+
+}
+
+function queryReviews(bookId) {
+
 }

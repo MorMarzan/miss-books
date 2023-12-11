@@ -5,7 +5,7 @@ export function UserMsg() {
     const [msg, setMsg] = useState(null)
 
     useEffect(() => {
-        const unsubscribe = eventBusService.on('show-user-msg', msg => {
+        const test = eventBusService.on('show-user-msg', msg => {
             setMsg(msg)
             setTimeout(() => {
                 setMsg(null)
@@ -13,7 +13,7 @@ export function UserMsg() {
         })
 
         return () => {
-            unsubscribe()
+            // test()
         }
     }, [])
 

@@ -1,3 +1,4 @@
+import { AddReview } from "../cmps/AddReview.jsx"
 import { bookService } from "../services/book.service.js"
 import { utilService } from "../services/util.service.js"
 
@@ -13,7 +14,7 @@ export function BookDetails({ bookId, onBack }) {
     useEffect(() => {
         // bookService.get(bookId)
         //     .then(book => setBook(book))
-        loadBook() 
+        loadBook()
     }, [params.bookId])
 
     function loadBook() {
@@ -65,11 +66,11 @@ export function BookDetails({ bookId, onBack }) {
             <h4><span>Published Date: </span>{publishedDate} <span className="tag">{bookAge}</span></h4>
             <h4><span>Page Count: </span>{pageCount} <span className="tag">{readingLevel}</span></h4>
             <h4><span>Amount Left: </span>{amount}</h4>
-            <h4><                span>Currency: </span>{currencyCode}</h4>
+            <h4><span>Currency: </span>{currencyCode}</h4>
             <h4><span>Sale: </span>{isOnSale ? 'Yes' : 'No'}</h4>
             <img src={thumbnail} alt={title + ' hardcover image'} />
             <button onClick={onBack}>Back</button>
-
+            <AddReview />
         </section>
     )
 }
