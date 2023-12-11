@@ -6,7 +6,7 @@ const { useState, useEffect } = React
 
 export function BookEdit() {
     const [bookToEdit, setBookToEdit] = useState(bookService.getEmptyBook())
-    // console.log('bookToEdit:', bookToEdit)
+    console.log('bookToEdit:', bookToEdit)
     const navigate = useNavigate()
     const params = useParams()
 
@@ -57,7 +57,7 @@ export function BookEdit() {
             .catch(err => console.log('err:', err))
     }
 
-    const { title, description, listPrice } = bookToEdit
+    const { title, description, pageCount, listPrice } = bookToEdit
     return (
         <section className="book-edit">
             <h1>Add Book</h1>
@@ -67,9 +67,13 @@ export function BookEdit() {
                 
                 <label htmlFor="description">Description</label>
                 <input onChange={handleChange} value={description} type="text" name="description" id="description" />
+                
+                <label htmlFor="pageCount">Page Count</label>
+                <input onChange={handleChange} value={pageCount || ''} type="number" name="pageCount" id="pageCount" />
 
                 <label htmlFor="price">Price</label>
                 <input onChange={handlePriceChange} value={listPrice.amount|| ''} type="number" name="price" id="price" />
+                
                 <button disabled={!title}>Save</button>
             </form>
 
