@@ -1,4 +1,5 @@
 import { bookService } from "../services/book.service.js"
+import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js"
 
 const { useNavigate, useParams } = ReactRouterDOM
 const { useState, useEffect } = React
@@ -53,8 +54,14 @@ export function BookEdit() {
     function onSaveBook(ev) {
         ev.preventDefault()
         bookService.save(bookToEdit)
-            .then(() => navigate('/book'))
-            .catch(err => console.log('err:', err))
+            .then((newBook) => {
+                showSuccessMsg(`Book successfully saved! ${newBook.id}`)
+                navigate('/book')
+            })
+            .catch(err => {
+                console.log('err:', err)
+                showErrorMsg(`An error occurred while saving the book `)
+            })
     }
 
     const { title, description, pageCount, listPrice } = bookToEdit
