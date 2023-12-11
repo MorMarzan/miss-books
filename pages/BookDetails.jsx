@@ -1,3 +1,4 @@
+import { ReviewList } from "../cmps/ReviewList.jsx"
 import { AddReview } from "../cmps/AddReview.jsx"
 import { bookService } from "../services/book.service.js"
 import { utilService } from "../services/util.service.js"
@@ -70,7 +71,9 @@ export function BookDetails({ bookId, onBack }) {
             <h4><span>Sale: </span>{isOnSale ? 'Yes' : 'No'}</h4>
             <img src={thumbnail} alt={title + ' hardcover image'} />
             <button onClick={onBack}>Back</button>
+            <ReviewList />
             <AddReview />
+
         </section>
     )
 }
