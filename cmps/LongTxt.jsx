@@ -5,8 +5,8 @@ export function LongTxt({ txt, length = 10 }) {
 
     const [showFulltxt, setShowFulltxt] = useState(false)
 
-    useEffect(() => {
-    }, [showFulltxt])
+    // useEffect(() => {
+    // }, [showFulltxt])
     
     const words = txt.split(/\s+/)
     let excerpt = words.slice(0, length).join(' ')

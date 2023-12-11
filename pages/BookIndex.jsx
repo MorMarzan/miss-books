@@ -49,6 +49,7 @@ export function BookIndex() {
                     <h1>Welcome to book index!</h1>
                     <BookFilter filterBy={filterBy} onSetFilter={onSetFilter} />
                     <BookList books={books} onSelectBookId={onSelectBookId} onRemoveBook={onRemoveBook} />
+                    {/* add check if there are books! */}
                 </React.Fragment>
             }
             {selectedBookId && <BookDetails bookId={selectedBookId} onBack={() => setSelectedBookId(null)} />}
