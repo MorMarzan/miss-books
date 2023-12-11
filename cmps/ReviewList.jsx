@@ -1,5 +1,6 @@
 // import { LongTxt } from "./LongTxt.jsx"
 import { bookService } from "../services/book.service.js"
+import { ReviewPreview } from "./ReviewPreview.jsx"
 const { useParams } = ReactRouterDOM
 const { useState, useEffect } = React
 
@@ -39,17 +40,13 @@ export function ReviewList() {
 
     if (!reviews) return <p>No reviews for this book.</p>
 
-    // const { id, title, description, listPrice, thumbnail } = book
     return (
         <section className="review-list">
             <h1>Reviews</h1>
             <ul>
             {reviews.map(review =>
                 <li key={review.id}>
-                    {/* <BookPreview book={book} /> */}
-                    <p>Name: {review.fullname}</p>
-                    <p>rating: {review.rating}</p>
-                    <p>createdAt: {review.createdAt}</p>
+                    <ReviewPreview review={review}/>
                     <section>
                         {/* <button onClick={() => onRemoveReview(review.id)}>Remove Review</button> */}
                         {/* <button><Link to={`/book/edit/${review.id}`}>Edit</Link></button> */}
@@ -57,10 +54,6 @@ export function ReviewList() {
                 </li>
             )}
         </ul>
-
-            {/* <h2>{title.toUpperCase()}</h2>
-            {/* <h4>{description}</h4> */}
-            {/* <LongTxt txt={description} /> */}
         </section>
     )
 }
