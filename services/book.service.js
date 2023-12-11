@@ -487,12 +487,18 @@ function save(book) {
     }
 }
 
-function getEmptyBook(title = '', description = '') {
+function getEmptyBook(title = '', subtitle = '', description = '') {
     return {
         id: '',
         title,
+        subtitle,
+        authors: [],
+        publishedDate: '',
         description,
+        pageCount: 0,
+        categories: [],
         thumbnail: '',
+        language: '',
         listPrice: {
             amount: 0,
             currencyCode: '',
