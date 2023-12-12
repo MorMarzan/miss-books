@@ -23,24 +23,21 @@ export function ReviewList() {
             .catch(err => console.log('err:', err))
     }
 
-    //unfinished
-    // function onRemoveReview(reviewId) {
+    function onRemoveReview(reviewId) {
 
-    //     bookService.removeReview(params.bookId, reviewId)
-    //         .then()
+        bookService.removeReview(params.bookId, reviewId)
+            .then(() => {
+                setReviews(prevReviews => {
+                    return prevReviews.filter(review => review.id !== reviewId)
+                })
+                showSuccessMsg(`Review successfully removed! ${reviewId}`)
+            })
+            .catch(err => {
+                console.log('err:', err)
+                showErrorMsg(`An error occurred while removing the review `)
+            })
 
-    //     bookService.remove(bookId)
-    //         .then(() => {
-    //             setBooks(prevBooks => {
-    //                 return prevBooks.filter(book => book.id !== bookId)
-    //             })
-    //             showSuccessMsg(`Book successfully removed! ${bookId}`)
-    //         })
-    //         .catch(err => {
-    //             console.log('err:', err)
-    //             showErrorMsg(`An error occurred while removing the book `)
-    //         })
-    // }
+    }
 
     if (!reviews) return <p>No reviews for this book.</p>
 
@@ -52,7 +49,7 @@ export function ReviewList() {
                     <li key={review.id}>
                         <ReviewPreview review={review} />
                         <section>
-                            {/* <button onClick={() => onRemoveReview(review.id)}>Remove Review</button> */}
+                            <button onClick={() => onRemoveReview(review.id)}>Remove Review</button>
                             {/* <button><Link to={`/book/edit/${review.id}`}>Edit</Link></button> */}
                         </section>
                     </li>
