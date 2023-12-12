@@ -620,9 +620,15 @@ function customizeGooglBook(item) {
 }
 
 function addGoogleBook(item) {
-    console.log('item', item)
-    const matchBook = booksDemo.find(book => book.title.trim().toLowerCase() === item.title.trim().toLowerCase())
-    console.log('matchBook', matchBook)
-    if (matchBook) return null
-    return storageService.post(BOOK_KEY, item)
+    return query(getDefaultFilter())
+        .then(books => books.find(book => {
+            return book.title.trim().toLowerCase() === item.title.trim().toLowerCase()
+        }))
+        .then(matchBook => {
+            console.log('matchBook', matchBook)
+            if (matchBook) return null
+            return storageService.post(BOOK_KEY, item)
+        })
+        .catch(err => console.log('err:', err))
+
 }
