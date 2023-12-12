@@ -453,7 +453,7 @@ export const bookService = {
     remove,
     save,
     getEmptyBook,
-    // getNextBookId,
+    getAdjacentBookId,
     getDefaultFilter,
     addReview,
     getEmptyReview,
@@ -516,14 +516,38 @@ function getDefaultFilter() {
     // return { txt: '', minSpeed: '' }
 }
 
-// function getNextBookId(bookId) {
-//     return storageService.query(BOOK_KEY)
-//         .then(books => {
-//             let nextBookIdx = books.findIndex(book => book.id === bookId) + 1
-//             if (nextBookIdx === books.length) nextBookIdx = 0
-//             return books[nextBookIdx].id
-//         })
-// }
+function getNextBookId(bookId) {
+    return storageService.query(BOOK_KEY)
+        .then(books => {
+            let nextBookIdx = books.findIndex(book => book.id === bookId) + 1
+            if (nextBookIdx === books.length) nextBookIdx = 0
+            return books[nextBookIdx].id
+        })
+}
+
+function getAdjacentBookId(bookId, direction) {
+    return storageService.query(BOOK_KEY)
+        .then(books => {
+            const currentBookIdx = books.findIndex(book => book.id === bookId)
+
+            if (currentBookIdx === -1) {
+                // Handle the case where the book with the given ID is not found
+                return null
+            }
+
+            let adjacentBookIdx
+            if (direction === 'next') {
+                adjacentBookIdx = (currentBookIdx + 1) % books.length
+            } else if (direction === 'prev') {
+                adjacentBookIdx = (currentBookIdx - 1 + books.length) % books.length
+            } else {
+                // Handle invalid direction
+                return null
+            }
+
+            return books[adjacentBookIdx].id
+        })
+}
 
 function _createBooks() {
     let books = utilService.loadFromStorage(BOOK_KEY)
@@ -568,7 +592,6 @@ function addReview(bookId, review) {
     if (!review.id) review.id = utilService.makeId()
     return get(bookId)
         .then(book => {
-            // console.log('review', review)
             if (!book.reviews) book.reviews = []
             book.reviews.push(review)
             return save(book)
@@ -588,7 +611,7 @@ function getEmptyReview() {
 function removeReview(bookId, reviewId) {
     return get(bookId)
         .then(book => {
-            const updatedReviews =  book.reviews.filter(review => review.id !== reviewId)
+            const updatedReviews = book.reviews.filter(review => review.id !== reviewId)
             book.reviews = updatedReviews
             return save(book)
         })

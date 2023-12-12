@@ -33,3 +33,18 @@
     background-color: var(--clr2);
 
 }
+
+.book-details .navigate {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.book-details .rev-section {
+    display: grid;
+    width: 100%;
+    justify-items: center;
+    background-color: var(--clr2);
+    margin: 10px;
+    padding: 10px;
+}

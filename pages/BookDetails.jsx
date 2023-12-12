@@ -57,6 +57,14 @@ export function BookDetails() {
             })
     }
 
+    function onAdjBook(dir) {
+        bookService.getAdjacentBookId(bookId, dir)
+            .then(adjBookId => {
+                console.log('Next Book ID:', adjBookId)
+                navigate(`/book/${adjBookId}`)
+            })
+    }
+
 
     if (!book) return <div>Loading...</div>
     const { id, title, subtitle, authors, description, language, publishedDate, pageCount, categories, listPrice, thumbnail } = book
@@ -97,13 +105,18 @@ export function BookDetails() {
             <h4><span>Sale: </span>{isOnSale ? 'Yes' : 'No'}</h4>
             <img src={thumbnail} alt={title + ' hardcover image'} />
 
-            <h3>Book's Reviews</h3>
-            <ReviewList reviews={book.reviews} onRemoveReview={onRemoveReview} />
-            <button onClick={() => setIsReview(!isReview)}>Add Review</button>
-            {isReview && <AddReview onAddReview={onAddReview} />}
-            {/* <AddReview onAddReview={onAddReview} /> */}
+            <section className="rev-section">
+                <h3>Book's Reviews</h3>
+                <ReviewList reviews={book.reviews} onRemoveReview={onRemoveReview} />
+                <button onClick={() => setIsReview(!isReview)}>Add Review</button>
+                {isReview && <AddReview onAddReview={onAddReview} />}
+            </section>
 
-            <button onClick={onBack}>Back</button>
+            <section className="navigate">
+                <button onClick={() => onAdjBook('next')}>Next Book</button>
+                <button onClick={onBack}>Back to all books</button>
+                <button onClick={() => onAdjBook('prev')}>Previous Book</button>
+            </section>
         </section>
     )
 }
