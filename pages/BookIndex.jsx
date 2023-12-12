@@ -47,6 +47,7 @@ export function BookIndex() {
             <h1>Welcome to book index!</h1>
             <BookFilter filterBy={filterBy} onSetFilter={onSetFilter} />
             <button className="add"><Link to="/book/edit">Add Book</Link></button>
+            <button className="add"><Link to="/book/add">Search Book to Add</Link></button>
             <BookList books={books} onRemoveBook={onRemoveBook} />
             {!books.length && <div> No Books found...</div>}
         </section>
