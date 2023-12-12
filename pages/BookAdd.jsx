@@ -8,7 +8,7 @@ const { useState, useEffect } = React
 export function BookAdd() {
     // const [bookToEdit, setBookToEdit] = useState(bookService.getEmptyBook())
     const [options, setOptions] = useState([
-        { id: 1, title: 'To Kill a Mockingbird' },
+        { id: '4897GH', title: 'To Kill a Mockingbird' },
         { id: 2, title: '1984' },
         { id: 3, title: 'The Great Gatsby' },
         { id: 4, title: 'Moby-Dick' },
@@ -75,28 +75,27 @@ export function BookAdd() {
 
     // const { title, description, pageCount, listPrice } = bookToEdit
 
-    const demoBooks = [
-        { id: 1, title: 'To Kill a Mockingbird' },
-        { id: 2, title: '1984' },
-        { id: 3, title: 'The Great Gatsby' },
-        { id: 4, title: 'Moby-Dick' },
-        { id: 5, title: 'The Catcher in the Rye' },
-    ];
+    function onAddBook(book) {
+        bookService.addGoogleBook(book)
+            .then(console.log)
+            .catch(err => {
+                console.log('err:', err)
+            })
+    }
 
     return (
         <section className="book-edit">
             <h1>Add Book</h1>
-
-            {/* <label htmlFor="search">Search for Book</label>
-                <input  placeholder="Search" type="search" name="search" id="search" />     */}
-
-            <label>
-                <input type="search" name="book-search" placeholder="Search" />
-            </label>
+            <form >
+                <label htmlFor="search">Search for Book</label>
+                <input placeholder="Search" type="search" name="search" id="search" />
+                <button>Submit</button>
+            </form>
+            
             <ul>
                 {options.map(opt => <li key={opt.id}>
                     {opt.title}
-                    <button>+</button>
+                    <button onClick={() => onAddBook(opt)}>+</button>
                 </li>)}
             </ul>
 

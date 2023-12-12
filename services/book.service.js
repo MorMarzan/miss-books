@@ -457,7 +457,8 @@ export const bookService = {
     getDefaultFilter,
     addReview,
     getEmptyReview,
-    removeReview
+    removeReview,
+    addGoogleBook
 }
 
 function query(filterBy) {
@@ -514,15 +515,6 @@ function getEmptyBook(title = '', subtitle = '', description = '') {
 function getDefaultFilter() {
     return { txt: '', amount: '' }
     // return { txt: '', minSpeed: '' }
-}
-
-function getNextBookId(bookId) {
-    return storageService.query(BOOK_KEY)
-        .then(books => {
-            let nextBookIdx = books.findIndex(book => book.id === bookId) + 1
-            if (nextBookIdx === books.length) nextBookIdx = 0
-            return books[nextBookIdx].id
-        })
 }
 
 function getAdjacentBookId(bookId, direction) {
@@ -588,6 +580,8 @@ function _createBook(title, description) {
 
 ////////////////////////////////
 
+/* reviews handling */
+
 function addReview(bookId, review) {
     if (!review.id) review.id = utilService.makeId()
     return get(bookId)
@@ -616,4 +610,19 @@ function removeReview(bookId, reviewId) {
             return save(book)
         })
         .catch(err => console.log('err:', err))
+}
+
+
+/* google api handling */
+
+function customizeGooglBook(item) {
+
+}
+
+function addGoogleBook(item) {
+    console.log('item', item)
+    const matchBook = booksDemo.find(book => book.title.trim().toLowerCase() === item.title.trim().toLowerCase())
+    console.log('matchBook', matchBook)
+    if (matchBook) return null
+    return storageService.post(BOOK_KEY, item)
 }
