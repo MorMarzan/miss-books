@@ -1,0 +1,9 @@
+.review-list {
+    list-style-type: none;
+    padding: 0px;
+    display: flex;
+}
+
+.review-list li:not(:last-child) {
+    padding-inline-end: 7px;
+}

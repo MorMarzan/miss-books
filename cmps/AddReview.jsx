@@ -1,15 +1,10 @@
 import { bookService } from "../services/book.service.js"
-import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js"
 
-const { useNavigate, useParams } = ReactRouterDOM
-const { useState, useEffect } = React
+const { useState } = React
 
 
-export function AddReview() {
+export function AddReview({onAddReview}) {
     const [reviewToEdit, setReviewToEdit] = useState(bookService.getEmptyReview())
-    // console.log('reviewToEdit:', reviewToEdit)
-    // const navigate = useNavigate()
-    const params = useParams()
 
     function handleChange({ target }) {
         const field = target.name
@@ -34,16 +29,7 @@ export function AddReview() {
 
     function onSaveReview(ev) {
         ev.preventDefault()
-        console.log('submitted!:')
-        bookService.addReview(params.bookId, reviewToEdit)
-            .then((savedBook) => {
-                showSuccessMsg(`Review successfully saved! ${savedBook.id}`)
-                // navigate('/book')
-            })
-            .catch(err => {
-                console.log('err:', err)
-                showErrorMsg(`An error occurred while saving the review `)
-            })
+        onAddReview(reviewToEdit)
     }
 
     const { fullname, rating, readAt } = reviewToEdit

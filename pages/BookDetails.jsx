@@ -2,24 +2,24 @@ import { ReviewList } from "../cmps/ReviewList.jsx"
 import { AddReview } from "../cmps/AddReview.jsx"
 import { bookService } from "../services/book.service.js"
 import { utilService } from "../services/util.service.js"
+import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js"
 
 const { useParams, useNavigate, Link } = ReactRouterDOM
 const { useState, useEffect } = React
 
-export function BookDetails({ bookId, onBack }) {
+export function BookDetails() {
 
     const [book, setBook] = useState(null)
-    const params = useParams()
+    const [isReview, setIsReview] = useState(false)
     const navigate = useNavigate()
+    const { bookId } = useParams()
 
     useEffect(() => {
-        // bookService.get(bookId)
-        //     .then(book => setBook(book))
         loadBook()
-    }, [params.bookId])
+    }, [bookId])
 
     function loadBook() {
-        bookService.get(params.bookId)
+        bookService.get(bookId)
             .then(book => setBook(book))
             .catch(err => {
                 console.log('err:', err)
@@ -29,6 +29,32 @@ export function BookDetails({ bookId, onBack }) {
 
     function onBack() {
         navigate('/book')
+    }
+
+    function onAddReview(reviewToAdd) {
+        bookService.addReview(bookId, reviewToAdd)
+            .then((updatedBook) => {
+                setBook(updatedBook)
+                setIsReview(false)
+                showSuccessMsg(`Review successfully saved! ${updatedBook.id}`)
+            })
+            .catch(err => {
+                console.log('err:', err)
+                showErrorMsg(`An error occurred while saving the review `)
+            })
+    }
+
+    function onRemoveReview(reviewId) {
+        bookService.removeReview(bookId, reviewId)
+            .then(savedBook => {
+                setBook(savedBook)
+                showSuccessMsg('Review deleted successfully')
+            })
+            .catch(err => {
+                console.log('err:', err)
+                showErrorMsg('Error deleting review')
+                navigate('/book')
+            })
     }
 
 
@@ -70,10 +96,14 @@ export function BookDetails({ bookId, onBack }) {
             <h4><span>Currency: </span>{currencyCode}</h4>
             <h4><span>Sale: </span>{isOnSale ? 'Yes' : 'No'}</h4>
             <img src={thumbnail} alt={title + ' hardcover image'} />
-            <button onClick={onBack}>Back</button>
-            <ReviewList />
-            <AddReview />
 
+            <h3>Book's Reviews</h3>
+            <ReviewList reviews={book.reviews} onRemoveReview={onRemoveReview} />
+            <button onClick={() => setIsReview(!isReview)}>Add Review</button>
+            {isReview && <AddReview onAddReview={onAddReview} />}
+            {/* <AddReview onAddReview={onAddReview} /> */}
+
+            <button onClick={onBack}>Back</button>
         </section>
     )
 }

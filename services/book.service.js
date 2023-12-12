@@ -568,7 +568,7 @@ function addReview(bookId, review) {
     if (!review.id) review.id = utilService.makeId()
     return get(bookId)
         .then(book => {
-            console.log('review', review)
+            // console.log('review', review)
             if (!book.reviews) book.reviews = []
             book.reviews.push(review)
             return save(book)
