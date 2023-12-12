@@ -615,11 +615,32 @@ function removeReview(bookId, reviewId) {
 
 /* google api handling */
 
-function customizeGooglBook(item) {
+function customizeGoogleBook(googleBook) {
+    let customizeBook = bookService.getEmptyBook()
+    // let { title, subtitle, authors, publishedDate, description, pageCount, categories, thumbnail, language, listPrice } = customizeBook
 
+    const { volumeInfo: googleInfo } = googleBook
+
+    customizeBook.title = googleInfo.title
+    customizeBook.subtitle = googleInfo.subtitle || ''
+    customizeBook.authors = googleInfo.authors || []
+    customizeBook.publishedDate = googleInfo.publishedDate || ''
+    customizeBook.description = googleInfo.description || ''
+    customizeBook.pageCount = googleInfo.pageCount || 0
+    customizeBook.categories = googleInfo.categories || []
+    customizeBook.thumbnail = googleInfo.imageLinks.thumbnail || ''
+    customizeBook.language = googleInfo.language || 'Unknown'
+    customizeBook.listPrice.amount = 0
+    customizeBook.listPrice.currencyCode = utilService.getCurrencyCode(googleBook.saleInfo.country) || ''
+    customizeBook.listPrice.isOnSale = false || ''
+
+    return customizeBook
 }
 
 function addGoogleBook(item) {
+    // console.log('item', item)
+    item = customizeGoogleBook(item)
+    // console.log('custom item', item)
     return query(getDefaultFilter())
         .then(books => books.find(book => {
             return book.title.trim().toLowerCase() === item.title.trim().toLowerCase()

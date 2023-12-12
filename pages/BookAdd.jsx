@@ -1,79 +1,36 @@
 import { bookService } from "../services/book.service.js"
 import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js"
+import { googlBookService } from "../services/google-book.service.js"
+import { utilService } from "../services/util.service.js"
 
-const { useNavigate, useParams } = ReactRouterDOM
-const { useState, useEffect } = React
+// const { useNavigate, useParams } = ReactRouterDOM
+const { useState, useEffect, useRef } = React
 
 
 export function BookAdd() {
-    // const [bookToEdit, setBookToEdit] = useState(bookService.getEmptyBook())
-    const [options, setOptions] = useState([
-        { id: '4897GH', title: 'To Kill a Mockingbird' },
-        { id: 2, title: '1984' },
-        { id: 3, title: 'The Great Gatsby' },
-        { id: 4, title: 'Moby-Dick' },
-        { id: 5, title: 'The Catcher in the Rye' },
-    ])
+    const [googleBooks, setGoogleBooks] = useState(null)
+    const [searchTxtToEdit, setSearchTxtToEdit] = useState('')
+    // const debouncedLoadGoogleBooks = useRef(utilService.debounce(loadGoogleBooks, 1500))
+    const debouncedLoadGoogleBooks = (utilService.debounce(loadGoogleBooks, 1500))
+    // const debouncedLoadGoogleBooks = useRef(utilService.debounce(loadGoogleBooks, 1500)).current
 
-    // console.log('bookToEdit:', bookToEdit)
-    // const navigate = useNavigate()
-    // const params = useParams()
 
-    // useEffect(() => {
-    //     if (params.bookId) {
-    //         loadBook()
-    //     }
-    // }, [])
+    function loadGoogleBooks(ev) {
+        if (!searchTxtToEdit.trim()) return
+        // ev.preventDefault()
+        // googlBookService.query(search)
+        googlBookService.query(searchTxtToEdit)
+            .then(setGoogleBooks)
+            .catch(console.log)
+    }
 
-    // function loadBook() {
-    //     bookService.get(params.bookId)
-    //         .then(setBookToEdit)
-    //         .catch(err=>console.log('err:', err))
-    // }
-
-    // function handleChange({ target }) {
-    //     const field = target.name
-    //     let value = target.value
-
-    //     switch (target.type) {
-    //         case 'number':
-    //         case 'range':
-    //             value = +value
-    //             break;
-
-    //         case 'checkbox':
-    //             value = target.checked
-    //             break
-
-    //         default:
-    //             break;
-    //     }
-
-    //     setBookToEdit(prevBook => ({ ...prevBook, [field]: value }))
-    // }
-
-    // function handlePriceChange({target}) {
-    //     let value = +target.value
-    //     const listPrice = {...bookToEdit.listPrice, amount:value}  
-    //     setBookToEdit(prevBook => ({ ...prevBook, listPrice }))
-
-    // }
-
-    // function onSaveBook(ev) {
-    //     ev.preventDefault()
-    //     bookService.save(bookToEdit)
-    //         .then((savedBook) => {
-    //             console.log('savedBook',savedBook)
-    //             showSuccessMsg(`Book successfully saved! ${savedBook.id}`)
-    //             navigate('/book')
-    //         })
-    //         .catch(err => {
-    //             console.log('err:', err)
-    //             showErrorMsg(`An error occurred while saving the book `)
-    //         })
-    // }
-
-    // const { title, description, pageCount, listPrice } = bookToEdit
+    function handleInputChange(ev) {
+        setSearchTxtToEdit(ev.target.value)
+        // utilService.debounce(loadGoogleBooks, 300)
+        // debouncedLoadGoogleBooks.current()
+        debouncedLoadGoogleBooks()
+        // loadGoogleBooks()
+    }
 
     function onAddBook(book) {
         bookService.addGoogleBook(book)
@@ -83,22 +40,28 @@ export function BookAdd() {
             })
     }
 
+
     return (
         <section className="book-edit">
             <h1>Add Book</h1>
-            <form >
+            <form>
+            {/* <form onSubmit={loadGoogleBooks}> */}
                 <label htmlFor="search">Search for Book</label>
-                <input placeholder="Search" type="search" name="search" id="search" />
-                <button>Submit</button>
+                <input value={searchTxtToEdit} onChange={handleInputChange} placeholder="Search" type="search" name="search" id="search" />
+                {/* <button>Submit</button> */}
             </form>
-            
-            <ul>
-                {options.map(opt => <li key={opt.id}>
-                    {opt.title}
-                    <button onClick={() => onAddBook(opt)}>+</button>
-                </li>)}
-            </ul>
 
+            {googleBooks && googleBooks.length &&
+            <ul className="google-book-list">
+                {googleBooks.map(book =>
+                    <li key={book.id}>
+                        {book.volumeInfo.title}
+                        <button onClick={() => onAddBook(book)}>+</button>
+                    </li>
+                    )}
+            </ul>
+            }
+    
         </section>
     )
 }

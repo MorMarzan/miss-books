@@ -7,7 +7,9 @@ export const utilService = {
     padNum,
     getDayName,
     getMonthName,
-    capitalizeFirstLetter
+    capitalizeFirstLetter,
+    getCurrencyCode,
+    debounce
 }
 
 function makeId(length = 6) {
@@ -62,4 +64,30 @@ function getMonthName(date) {
 
 function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
-  }
+}
+
+function getCurrencyCode(countryAbbreviation) {
+    const countryCurrencyMap = {
+        US: 'USD', // United States
+        CA: 'CAD', // Canada
+        GB: 'GBP', // United Kingdom
+        FR: 'EUR', // France
+        IL: 'ILS', // Israel
+    }
+    const uppercaseAbbreviation = countryAbbreviation.toUpperCase()
+    return countryCurrencyMap[uppercaseAbbreviation] || 'Currency Not Found'
+}
+
+function debounce(func, wait) {
+    let timeout
+
+    return function (...args) {
+        const later = () => {
+            clearTimeout(timeout)
+            func(...args)
+        }
+
+        clearTimeout(timeout)
+        timeout = setTimeout(later, wait)
+    }
+}
